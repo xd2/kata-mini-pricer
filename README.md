@@ -1,6 +1,3 @@
-# monte-carlo
-mini pricer
-
 ## Introduction
 
 ### Objectifs
