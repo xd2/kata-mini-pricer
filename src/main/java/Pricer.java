@@ -1,23 +1,39 @@
 import java.time.LocalDate;
+import java.util.Random;
+
 import static java.time.temporal.ChronoUnit.DAYS;
 
-/**
- * Created by Xavier on 07/02/2017.
- */
+
 public class Pricer {
 
-    public double price(double strike, double volatility, LocalDate maturity){
+    protected Calendar calendar = null;
+    protected Random random = null;
 
-        long days = DAYS.between(LocalDate.now(),maturity);
+    public Pricer(){
+        calendar = new Calendar();
+        random = new Random();
+    }
+    public Pricer(Calendar calendar, Random random){
+        this.calendar = calendar;
+        this.random = random;
+    }
+
+    public double price(double strike, int volatility, LocalDate maturity){
+
+        long days = calendar.countWorkingDays(LocalDate.now(),maturity) -1;
 
         double price = strike;
 
         for(int i=1;i<=days;i++)
         {
-            price = price * (1 + volatility / 100);
+            int slope = getRandomFactor();
+            price = price * (1.0d + slope * volatility / 100d);
         }
         return price;
     }
 
+    public int getRandomFactor(){
+        return random.nextInt(3) - 1;
+    }
 
 }
