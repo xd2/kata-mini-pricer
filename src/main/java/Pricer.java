@@ -18,11 +18,11 @@ public class Pricer {
         this.random = random;
     }
 
-    public double price(double strike, int volatility, LocalDate maturity){
+    public double price(double spot, int volatility, LocalDate maturity){
 
         long days = calendar.countWorkingDays(LocalDate.now(),maturity) ;
 
-        double price = strike;
+        double price = spot;
 
         for(int i=1;i<=days;i++)
         {

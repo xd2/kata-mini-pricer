@@ -19,10 +19,10 @@ public class PricerTest {
             }
         };
         //Given
-        double initialPrice = 50;
+        double spot = 50;
         int volatility = 2;
         //When
-        double price = pricer.price(initialPrice, volatility, LocalDate.now().plusDays(1));
+        double price = pricer.price(spot, volatility, LocalDate.now().plusDays(1));
         //Then
         Assert.assertEquals(51,price,0);
     }
@@ -37,10 +37,10 @@ public class PricerTest {
             }
         };
         //Given
-        double initialPrice = 50;
+        double spot = 50;
         int volatility = 2;
         //When
-        double price = pricer.price(initialPrice,volatility, LocalDate.now().plusDays(1));
+        double price = pricer.price(spot,volatility, LocalDate.now().plusDays(1));
         //Then
         Assert.assertEquals(49,price,0);
     }
@@ -100,16 +100,54 @@ public class PricerTest {
         //Given
         LocalDate start = LocalDate.now();
         LocalDate maturity = calendar.addWorkingDays(start,15);
-        double initialPrice = 50;
+        double spot = 50;
         int volatility = 2;
 
         //When
-        double price = pricer.price(initialPrice, volatility, maturity);
+        double price = pricer.price(spot, volatility, maturity);
 
         //Then
         Assert.assertEquals(47.9815916832,round(price),0);
     }
 
+    // STEP2.2 : extremums test//
+    @Test
+    public void shouldReturnValueAboveSpot_WhenMaturityIsMax_AndVolatilitySlopeIsPositive(){
+        //Background
+        Pricer pricer = new Pricer(){
+            public int getRandomFactor(){
+                return 1;
+            }
+        };
+        //Given
+        double spot = 50;
+        int volatility = 2;
+
+        //When
+        double price = pricer.price(spot, volatility, LocalDate.now().plusYears(50));
+        System.out.println(price);
+        //Then
+        Assert.assertTrue(spot<price);
+    }
+
+    @Test
+    public void shouldReturnValueBelowSpot_WhenMaturityIsMax_AndVolatilitySlopeIsNegative(){
+        //Background
+        Pricer pricer = new Pricer(){
+            public int getRandomFactor(){
+                return -1;
+            }
+        };
+        //Given
+        double spot = 50;
+        int volatility = 2;
+
+        //When
+        double price = pricer.price(spot, volatility, LocalDate.now().plusYears(50));
+        System.out.println(price);
+        //Then
+        Assert.assertTrue(spot>price);
+    }
 
     private static double round(double d) {
         BigDecimal bd = new BigDecimal(Double.toString(d));
