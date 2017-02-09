@@ -12,11 +12,16 @@ public class PricerTest {
     // STEP 1 //
     @Test
     public void shouldPrice51_WhenMaturityEquals1_AndStrikeEquals50_WithVolatilityEquals2(){
+        //Background
+        Pricer pricer = new Pricer(){
+            public int getRandomFactor(){
+                return 1;
+            }
+        };
         //Given
         double initialPrice = 50;
         int volatility = 2;
         //When
-        Pricer pricer = new Pricer();
         double price = pricer.price(initialPrice, volatility, LocalDate.now().plusDays(1));
         //Then
         Assert.assertEquals(51,price,0);
@@ -25,11 +30,16 @@ public class PricerTest {
     // STEP 1 //
     @Test
     public void shouldPrice49_WhenMaturityEquals1_AndStrikeEquals50_WithVolatilityEqualsMinus2(){
+        //Background
+        Pricer pricer = new Pricer(){
+            public int getRandomFactor(){
+                return -1;
+            }
+        };
         //Given
         double initialPrice = 50;
-        int volatility = -2;
+        int volatility = 2;
         //When
-        Pricer pricer = new Pricer();
         double price = pricer.price(initialPrice,volatility, LocalDate.now().plusDays(1));
         //Then
         Assert.assertEquals(49,price,0);

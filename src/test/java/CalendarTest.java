@@ -28,7 +28,7 @@ public class CalendarTest {
         Calendar calendar = new Calendar();
         long days = calendar.countWorkingDays(start,maturity);
         //Then
-        Assert.assertEquals(2,days);
+        Assert.assertEquals(1,days);
     }
 
     @Test

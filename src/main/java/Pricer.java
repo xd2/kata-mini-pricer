@@ -20,7 +20,7 @@ public class Pricer {
 
     public double price(double strike, int volatility, LocalDate maturity){
 
-        long days = calendar.countWorkingDays(LocalDate.now(),maturity) -1;
+        long days = calendar.countWorkingDays(LocalDate.now(),maturity) ;
 
         double price = strike;
 
