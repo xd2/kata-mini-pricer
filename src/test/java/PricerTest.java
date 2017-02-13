@@ -47,10 +47,10 @@ public class PricerTest {
 
 
     // STEP 2.0 : Pseudo random generator for Random(1).next(3)-1
-
+    //
     //  Step |  1 |  2 |  3 |  4 |  5 |  6 |  7 |  8 |  9 | 10 | 11 | 12 | 13 | 14 | 15
     // ------+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----
-    // Slope | -1 |  0 |  0 | -1 |  1 |  0 |  1 |  0 |  0 | 0  |  0 |  0 |  0 | -1 | -1
+    // Value | -1 |  0 |  0 | -1 |  1 |  0 |  1 |  0 |  0 | 0  |  0 |  0 |  0 | -1 | -1
     //
     @Test
     public void shouldGetExpectedSequenceWhenSeedEquals1(){
@@ -93,10 +93,15 @@ public class PricerTest {
     @Test
     public void shouldReturn47_9815916832_WhenMaturityIs15Days_AndStrikeEquals50_WithVolatilityEquals2(){
         //Background
-        Random random = new Random(1) ;
         Calendar calendar = new Calendar();
-        Pricer pricer = new Pricer(calendar, random);
-
+        Pricer pricer = new Pricer(calendar,new Random()){
+            int sample = 0;
+            protected double basicPrice(double spot, int volatility, LocalDate maturity){
+                //Step3: Reset Random on each new sampling for testing purpose
+                random = new Random(1) ;
+                return super.basicPrice(spot,volatility,maturity);
+            }
+        };
         //Given
         LocalDate start = LocalDate.now();
         LocalDate maturity = calendar.addWorkingDays(start,15);
@@ -110,7 +115,7 @@ public class PricerTest {
         Assert.assertEquals(47.9815916832,round(price),0);
     }
 
-    // STEP2.2 : extremums test//
+    // STEP2.2 : maximum test//
     @Test
     public void shouldReturnValueAboveSpot_WhenMaturityIsMax_AndVolatilitySlopeIsPositive(){
         //Background
@@ -125,13 +130,13 @@ public class PricerTest {
 
         //When
         double price = pricer.price(spot, volatility, LocalDate.now().plusYears(50));
-        System.out.println(price);
         //Then
         Assert.assertTrue(spot<price);
     }
 
+    // STEP2.2 : minimum test//
     @Test
-    public void shouldReturnValueBelowSpot_WhenMaturityIsMax_AndVolatilitySlopeIsNegative(){
+    public void shouldReturnValueBellowSpot_WhenMaturityIsMax_AndVolatilitySlopeIsNegative(){
         //Background
         Pricer pricer = new Pricer(){
             public int getRandomFactor(){
@@ -144,10 +149,10 @@ public class PricerTest {
 
         //When
         double price = pricer.price(spot, volatility, LocalDate.now().plusYears(50));
-        System.out.println(price);
         //Then
         Assert.assertTrue(spot>price);
     }
+
 
     private static double round(double d) {
         BigDecimal bd = new BigDecimal(Double.toString(d));

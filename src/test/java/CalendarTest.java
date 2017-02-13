@@ -20,15 +20,15 @@ public class CalendarTest {
 
 
     @Test
-    public void shoulGet1_WhenStartDateIsToday_andMaturityIsTomorrow() {
+    public void shoulGet2_WhenStartDateIsMonday_andMaturityIsTuesday() {
         //Given
-        LocalDate start = LocalDate.now();
+        LocalDate start = LocalDate.parse("2017-02-13");
         LocalDate maturity =  LocalDate.now().plusDays(1);
         //When
         Calendar calendar = new Calendar();
         long days = calendar.countWorkingDays(start,maturity);
         //Then
-        Assert.assertEquals(1,days);
+        Assert.assertEquals(2,days);
     }
 
     @Test
