@@ -1,3 +1,6 @@
+[<img src="https://api.travis-ci.org/xd2/monte-carlo.svg?branch=master">](https://travis-ci.org/xd2/monte-carlo/)
+
+
 ## Introduction
 
 ### Objectifs
