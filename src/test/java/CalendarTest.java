@@ -23,7 +23,7 @@ public class CalendarTest {
     public void shoulGet2_WhenStartDateIsMonday_andMaturityIsTuesday() {
         //Given
         LocalDate start = LocalDate.parse("2017-02-13");
-        LocalDate maturity =  LocalDate.now().plusDays(1);
+        LocalDate maturity =  LocalDate.parse("2017-02-14");
         //When
         Calendar calendar = new Calendar();
         long days = calendar.countWorkingDays(start,maturity);
