@@ -1,8 +1,12 @@
+import model.Basket;
+import model.Instrument;
 import org.junit.Assert;
 import org.junit.Test;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Random;
 
 public class PricerTest {
@@ -95,7 +99,6 @@ public class PricerTest {
         //Background
         Calendar calendar = new Calendar();
         Pricer pricer = new Pricer(calendar,new Random()){
-            int sample = 0;
             protected double basicPrice(double spot, int volatility, LocalDate maturity){
                 //Step3: Reset Random on each new sampling for testing purpose
                 random = new Random(1) ;
@@ -153,11 +156,64 @@ public class PricerTest {
         Assert.assertTrue(spot>price);
     }
 
+    // STEP 4 : Basket pricing
+    @Test
+    public void basketPrice(){
+        //Background
+        Calendar calendar = new Calendar();
+        Pricer pricer = new Pricer(calendar,new Random()){
+            protected double basicPrice(double spot, int volatility, LocalDate maturity){
+                //Reset Random on each pricing for testing purpose
+                random = new Random(1) ;
+                return super.basicPrice(spot,volatility,maturity);
+            }
+        };
+        //Given
+        LocalDate start = LocalDate.now();
+        LocalDate maturity = calendar.addWorkingDays(start,15);
+
+        Instrument pivot = new Instrument("pivot", 50,2);
+        Instrument gmc = new Instrument("gmc", 50,2);
+        Instrument bnp = new Instrument("bnp", 100,0);
+        Instrument edf = new Instrument("edf", 35,0);
+        Instrument total = new Instrument("total",48,0);
+        Instrument google = new Instrument("google",59,0);
+        Map<Instrument,Double> content = addKeyValues(new HashMap(),
+                gmc, 100d,
+                bnp,100d,
+                edf, -100d,
+                total, 0d,
+                google, 102d);
+        Basket basket = new Basket(pivot,content);
+
+        //When
+        pricer.price(basket, maturity);
+
+        //Then
+        // bnp = strike * adjustedVar * corel = 50 * 0,959631833664 * 100% = 47,9815916832
+        Assert.assertEquals(47.9815916832, round(gmc.getPrice()),0);
+        // bnp = strike * adjustedVar * corel = 100 * 0,959631833664 * 100% = 95,9631833664
+        Assert.assertEquals(95.9631833664, round(bnp.getPrice()),0);
+        // edf =  35 * 0,959631833664 *  (- 100/100) = -33,58711417824
+        Assert.assertEquals(-33.5871141782, round(edf.getPrice()),0);
+        // tot =  48 * 0,959631833664 *  (0/100) = 0
+        Assert.assertEquals(0, round(total.getPrice()),0);
+        // goo =  59 * 0,959631833664 *  (102/100) = 57,75064374989952
+        Assert.assertEquals(57.7506437499, round(google.getPrice()),0);
+    }
 
     private static double round(double d) {
         BigDecimal bd = new BigDecimal(Double.toString(d));
         bd = bd.setScale(10, BigDecimal.ROUND_HALF_UP);
         return bd.doubleValue();
+    }
+
+    private Map addKeyValues(Map map, Object... keyValues){
+        assert(keyValues.length%2==0);
+        for(int i=0;i<keyValues.length;i+=2){
+            map.put(keyValues[i],keyValues[i+1]);
+        }
+        return map;
     }
 
 }

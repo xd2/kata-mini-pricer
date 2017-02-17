@@ -1,3 +1,6 @@
+import model.Basket;
+import model.Instrument;
+
 import java.time.LocalDate;
 import java.util.Random;
 
@@ -27,7 +30,7 @@ public class Pricer {
 
         double price = spot;
 
-        for(int i=1;i<days;i++)
+        for(int i=0;i<days;i++)
         {
             int slope = getRandomFactor();
             price = price * (1.0d + slope * volatility / 100d);
@@ -35,6 +38,18 @@ public class Pricer {
         return price;
     }
 
+    public Basket price(Basket basket, LocalDate maturity) {
+        Instrument pivot = basket.getPivot();
+        double avgPrice = price(pivot.getPrice(),pivot.getVolatility(),maturity);
+        double avgVol = avgPrice / pivot.getPrice() ;
+
+        for(Instrument instrument : basket.getInstruments().keySet()){
+            double corel = basket.getInstruments().get(instrument) / 100d;
+            double price = instrument.getPrice() * avgVol * corel;
+            instrument.setPrice(price);
+        }
+        return basket;
+    }
 
     public double price(double spot, int volatility, LocalDate maturity) {
         double price = 0;

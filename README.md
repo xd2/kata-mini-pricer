@@ -74,7 +74,15 @@ Avez vous mis en parallèle  le calcul des trajectoires ? Si oui, doit/peut on l
 
 ### Enoncé:
 
-Pour aller plus vite, on veut pricer tous les instruments d’un même panier en un coup. La méthode que l’on va appliquer est la suivante. On va pricer un instrument dit pivot selon la méthode précédente. Et grâce à la corrélation moyenne des autres instruments par rapport a cet instrument pivot, on calcul la variation de prix de ces instruments. La corrélation représente le lien entre la variation de prix de deux actifs. Elle est généralement exprimée de manière signée, mais en %. A savoir si la corrélation entre deux instruments vaut -1, cela veut dire que quand l’un monte de X%, l’autre baisse de X%
+Pour aller plus vite, on veut pricer tous les instruments d’un même panier en un coup. La méthode que l’on va appliquer est la suivante.
+On va pricer un instrument dit pivot selon la méthode précédente.
+Et grâce à la corrélation moyenne des autres instruments par rapport a cet instrument pivot,
+on calcul la variation de prix de ces instruments. `PE = P1 + P2 + P3 + P4...`
+
+La corrélation représente le lien entre la variation de prix de deux actifs.
+Elle est généralement exprimée de manière signée, mais en %.
+A savoir si la corrélation entre deux instruments vaut -1,
+cela veut dire que quand l’un monte de X%, l’autre baisse de X%
 
 ### A la fin de l’étape:
 
