@@ -1,4 +1,4 @@
-[<img src="https://api.travis-ci.org/xd2/kata-mini-pricer.svg?branch=master">](https://travis-ci.org/xd2/monte-carlo/)
+[<img src="https://api.travis-ci.org/xd2/kata-mini-pricer.svg?branch=master">](https://travis-ci.org/xd2/kata-mini-pricer/)
 
 
 ## Introduction
