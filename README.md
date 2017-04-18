@@ -1,4 +1,4 @@
-[<img src="https://api.travis-ci.org/xd2/monte-carlo.svg?branch=master">](https://travis-ci.org/xd2/monte-carlo/)
+[<img src="https://api.travis-ci.org/xd2/kata-mini-pricer.svg?branch=master">](https://travis-ci.org/xd2/kata-mini-pricer/)
 
 
 ## Introduction
@@ -81,7 +81,7 @@ on calcul la variation de prix de ces instruments. `PE = P1 + P2 + P3 + P4...`
 
 La corrélation représente le lien entre la variation de prix de deux actifs.
 Elle est généralement exprimée de manière signée, mais en %.
-A savoir si la corrélation entre deux instruments vaut -1,
+A savoir si la corrélation entre deux instruments vaut -100,
 cela veut dire que quand l’un monte de X%, l’autre baisse de X%
 
 ### A la fin de l’étape:
