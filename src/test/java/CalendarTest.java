@@ -7,15 +7,28 @@ import static org.junit.Assert.*;
 
 public class CalendarTest {
     @Test
-    public void shouldGet21WorkingDays_whenStartDateIs20170501_andMaturityDateis20170531() throws Exception {
+    public void shouldGet21WorkingDays_whenStartDateIs20170430_andMaturityDateis20170531() throws Exception {
         //Given
-        LocalDate start = LocalDate.parse("2017-05-01");
+        LocalDate start = LocalDate.parse("2017-04-30");
         LocalDate maturity = LocalDate.parse("2017-05-31");;
         //When
         Calendar calendar = new Calendar();
         long days = calendar.countWorkingDays(start,maturity);
         //Then
         Assert.assertEquals(21,days);
+    }
+
+
+    @Test
+    public void shoulGet0_whenStartDate_andMaturity_areEquals() {
+        //Given
+        LocalDate start = LocalDate.parse("2017-02-13");
+        LocalDate maturity =  LocalDate.parse("2017-02-13");
+        //When
+        Calendar calendar = new Calendar();
+        long days = calendar.countWorkingDays(start,maturity);
+        //Then
+        Assert.assertEquals(0,days);
     }
 
 
@@ -28,7 +41,7 @@ public class CalendarTest {
         Calendar calendar = new Calendar();
         long days = calendar.countWorkingDays(start,maturity);
         //Then
-        Assert.assertEquals(2,days);
+        Assert.assertEquals(1,days);
     }
 
     @Test

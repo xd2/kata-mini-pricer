@@ -21,7 +21,7 @@ public class Calendar {
 
     public int countWorkingDays(LocalDate start, LocalDate maturity){
         int workingDays = 0;
-        for(LocalDate date = start; date.isBefore(maturity)||date.isEqual(maturity); date = date.plusDays(1)){
+        for(LocalDate date = start.plusDays(1); date.isBefore(maturity)||date.isEqual(maturity); date = date.plusDays(1)){
             if(isWorkingDay(date)){
                 workingDays++;
             }
