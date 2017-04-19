@@ -10,11 +10,16 @@ import java.util.List;
  */
 public class Calendar {
 
-    List<MonthDay> offDays = Arrays.asList(
-            MonthDay.of(1,1),
-            MonthDay.of(5,1),
-            MonthDay.of(5,8)
-    );
+    List<MonthDay> offDays;
+
+
+    public Calendar(){
+        offDays = Arrays.asList(
+                MonthDay.of(1,1),
+                MonthDay.of(5,1),
+                MonthDay.of(5,8)
+        );
+    }
 
     public Calendar(MonthDay... daysOff){
         offDays = Arrays.asList(daysOff);
