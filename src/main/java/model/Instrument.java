@@ -8,8 +8,6 @@ public class Instrument {
     double price;
     int volatility;
 
-    public Instrument(){};
-
     public Instrument(String mnemonic, double price, int volatility) {
         this.mnemonic = mnemonic;
         this.price = price;
@@ -26,17 +24,5 @@ public class Instrument {
 
     public int getVolatility() {
         return volatility;
-    }
-
-    public void setVolatility(int volatility) {
-        this.volatility = volatility;
-    }
-
-    public String getMnemonic() {
-        return mnemonic;
-    }
-
-    public void setMnemonic(String mnemonic) {
-        this.mnemonic = mnemonic;
     }
 }
