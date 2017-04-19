@@ -11,9 +11,6 @@ Le deuxième objectif de ce kata est de vous donner une idée, certes sommaire m
 
 Enfin, pour certaines étapes on va voir les « limites » des tests unitaires, je vous laisse débattre de s’il faut trouver des moyens de les franchir ou pas. Et si oui de comment le faire.
 
-### Auditoire:
-
-Pour réaliser ce Kata vous devez « maîtriser » un langage de programmation, ainsi qu’un framework de test. Il n’y a pas vraiment besoin de connaissance en finance, mais il est mieux d’y avoir une certaine sensibilité. Ce kata a aussi une relative complexité, il est bien d’en avoir fait des très simples avant de le commencer (ex: chercher Kata FizzBuzz sur le net).
 
 ### Etapes:
 
@@ -60,7 +57,7 @@ Avez vous utilisé un faux (mock) générateur de nombre aléatoire en vérifian
 
 ### Enoncé:
 
-En fait faire un seul tirage aléatoire par jour n’est pas du tout satisfaisant d’un point de vue mathématique. Une meilleure stratégie est de créer un grand nombre de trajectoires de prix et d’en faire la moyenne. Une trajectoire de prix étant ce qu’on a fait à l’étape précédente. A savoir tous les jours on fait un tirage au sort de la variation du prix à appliquer, et ce pour chaque jour à considérer. C’est ce qu’on appelle utiliser la méthode de Monté-Carlo (grand nombre d’aléas en entrée d’un processus connu et moyenne au final).
+En fait faire un seul tirage aléatoire par jour n’est pas du tout satisfaisant d’un point de vue mathématique. Une meilleure stratégie est de créer un grand nombre de trajectoires de prix et d’en faire la moyenne. Une trajectoire de prix étant ce qu’on a fait à l’étape précédente. A savoir tous les jours on fait un tirage au sort de la variation du prix à appliquer, et ce pour chaque jour à considérer. C’est ce qu’on appelle utiliser [la méthode de Monté-Carlo](https://www.youtube.com/watch?v=VID) (grand nombre d’aléas en entrée d’un processus connu et moyenne au final).
 
 ### A la fin de l’étape:
 
