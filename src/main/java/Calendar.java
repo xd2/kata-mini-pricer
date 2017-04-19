@@ -10,6 +10,16 @@ import java.util.List;
  */
 public class Calendar {
 
+    List<MonthDay> offDays = Arrays.asList(
+            MonthDay.of(1,1),
+            MonthDay.of(5,1),
+            MonthDay.of(5,8)
+    );
+
+    public Calendar(MonthDay... daysOff){
+        offDays = Arrays.asList(daysOff);
+    }
+
     public LocalDate addWorkingDays(LocalDate date, int days){
         for(int i=0;i<days;i++) {
             do {
@@ -39,11 +49,6 @@ public class Calendar {
     }
 
     protected boolean isDayOff(LocalDate date){
-        List<MonthDay> offDays = Arrays.asList(
-                MonthDay.of(1,1),
-                MonthDay.of(5,1),
-                MonthDay.of(5,8)
-        );
         MonthDay monthDay = MonthDay.of(date.getMonth(),date.getDayOfMonth());
         return offDays.contains(monthDay);
     }

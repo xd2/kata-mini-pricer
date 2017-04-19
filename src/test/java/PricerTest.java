@@ -5,6 +5,7 @@ import org.junit.Test;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.MonthDay;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
@@ -99,10 +100,11 @@ public class PricerTest {
         //Background
         Calendar calendar = new Calendar();
         Pricer pricer = new Pricer(calendar,new Random()){
-            protected double basicPrice(double spot, int volatility, LocalDate maturity){
+            @Override
+            protected double basicPrice(double spot, int volatility, LocalDate startDate, LocalDate maturity){
                 //Step3: Reset Random on each new sampling for testing purpose
                 random = new Random(1) ;
-                return super.basicPrice(spot,volatility,maturity);
+                return super.basicPrice(spot,volatility,LocalDate.now(),maturity);
             }
         };
         //Given
@@ -162,10 +164,10 @@ public class PricerTest {
         //Background
         Calendar calendar = new Calendar();
         Pricer pricer = new Pricer(calendar,new Random()){
-            protected double basicPrice(double spot, int volatility, LocalDate maturity){
+            protected double basicPrice(double spot, int volatility, LocalDate startDate, LocalDate maturity){
                 //Reset Random on each pricing for testing purpose
                 random = new Random(1) ;
-                return super.basicPrice(spot,volatility,maturity);
+                return super.basicPrice(spot,volatility,LocalDate.now(),maturity);
             }
         };
         //Given
@@ -201,6 +203,41 @@ public class PricerTest {
         // goo =  59 * 0,959631833664 *  (102/100) = 57,75064374989952
         Assert.assertEquals(57.7506437499, round(google.getPrice()),0);
     }
+
+    @Test
+    public void should_skip_holidays_and_weekends_and_holidays_again_error(){
+        //BackGround
+        Calendar calendar = new Calendar(MonthDay.of(6,15),MonthDay.of(6,19));
+
+        Pricer pricer = new Pricer(calendar,null){
+            private int[] values = { -1, 0, 1 };
+            private int current = 0;
+
+            @Override
+            protected double basicPrice(double spot, int volatility, LocalDate startDate, LocalDate maturity) {
+                current = 0;
+                return super.basicPrice(spot, volatility, startDate, maturity);
+            }
+
+            @Override
+            public int getRandomFactor() {
+                return values[current==3 ? 0 : current++];
+            }
+        };
+
+        //Given
+        double price = 100;
+        int volatility = 1;
+        LocalDate startDate = LocalDate.of(2017,6,14);
+        LocalDate targetedDate = LocalDate.of(2017,6,20);
+
+        //When
+        Double calculatedPrice = pricer.price(price, volatility,startDate, targetedDate);
+
+        //Then
+        Assert.assertEquals(99,round(calculatedPrice),0);
+    }
+
 
     private static double round(double d) {
         BigDecimal bd = new BigDecimal(Double.toString(d));

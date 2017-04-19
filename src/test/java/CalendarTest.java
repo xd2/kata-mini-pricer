@@ -2,6 +2,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import java.time.LocalDate;
+import java.time.MonthDay;
 
 import static org.junit.Assert.*;
 
@@ -54,6 +55,25 @@ public class CalendarTest {
         LocalDate nextDate = calendar.addWorkingDays(date,workingDays);
         //Then
         Assert.assertEquals(LocalDate.parse("2017-05-15"),nextDate);
+    }
+
+    @Test
+    public void should_have_two_days_off() {
+        Calendar calendar = new Calendar(MonthDay.of(6,15),MonthDay.of(6,19));
+        Assert.assertEquals(2,calendar.offDays.size() );
+    }
+
+
+    @Test
+    public void should_count_two_working_days(){
+        //GIVEN
+        LocalDate startDate = LocalDate.of(2017,6,14);
+        LocalDate targetedDate = LocalDate.of(2017,6,20);
+        //WHEN
+        Calendar calendar = new Calendar(MonthDay.of(6,15),MonthDay.of(6,19));
+        int count = calendar.countWorkingDays(startDate,targetedDate);
+        //THEN
+        Assert.assertEquals(2,count);
     }
 
 }

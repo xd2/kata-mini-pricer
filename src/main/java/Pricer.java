@@ -24,9 +24,9 @@ public class Pricer {
         this.random = random;
     }
 
-    protected double basicPrice(double spot, int volatility, LocalDate maturity){
+    protected double basicPrice(double spot, int volatility, LocalDate startDate, LocalDate maturity){
 
-        long days = calendar.countWorkingDays(LocalDate.now(),maturity) ;
+        long days = calendar.countWorkingDays(startDate,maturity) ;
 
         double price = spot;
 
@@ -51,10 +51,10 @@ public class Pricer {
         return basket;
     }
 
-    public double price(double spot, int volatility, LocalDate maturity) {
+    public double price(double spot, int volatility, LocalDate startDate, LocalDate maturity) {
         double price = 0;
         for (int i=1; i <= TOTAL_SAMPLING ; i++){
-            double aPrice = basicPrice(spot, volatility, maturity);
+            double aPrice = basicPrice(spot, volatility, startDate, maturity);
             price += aPrice;
         }
         price = price / TOTAL_SAMPLING;
@@ -65,4 +65,7 @@ public class Pricer {
         return random.nextInt(3) - 1;
     }
 
+    public Double price(double price, int volatility,  LocalDate targetedDate) {
+        return price(price,volatility, LocalDate.now(), targetedDate);
+    }
 }
